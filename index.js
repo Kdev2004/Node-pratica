@@ -1,23 +1,24 @@
+//========== [VARIABLES] ==========
 const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const {Sequelize} = require('sequelize');
 const port = 3000;
-const configSQL = require('./config/database.js')
-const sequelize = new Sequelize(configSQL.local.db, configSQL.local.user, configSQL.local.pass, {
-  host: configSQL.local.host,
-  dialect: configSQL.local.dialect
-})
+const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
+//========== [VARIABLES] ==========
 
 //========== [SEQUELIZE] ==========
   sequelize.authenticate()
-    .then(() => {
-      console.log('MySQL conectado com sucesso!');})
+  .then(() => {
+      console.log('MySQL conectado com sucesso!');
+      return registers.sync({force: true});
+    })
+  .then(() => {
+      console.log('Tabelas criadas com sucesso!');}) 
 
-    .catch((erro) => {
-      console.error('Erro ao conectar MySQL:', erro)});
+  .catch((error) => {
+      console.error('Erro ao conectar MySQL:', error)});
 //========== [SEQUELIZE] ==========
 
 //========== [EXPRESS-HANDLEBARS] ==========
@@ -52,13 +53,6 @@ const sequelize = new Sequelize(configSQL.local.db, configSQL.local.user, config
     const user = req.body.cusuario, pass = req.body.csenha;
 
     console.log(`User ${user}`);
-
-    if(pass != 'teste'){
-      res.send('Senha incorreta');
-    }
-    else{
-      res.send('Logado com sucesso');
-    }
   });
 //========== [POST ROUTES] ==========
 
