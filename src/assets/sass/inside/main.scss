@@ -1,0 +1,48 @@
+main {
+    /* Estilização dos headers dos cards */
+    .card {
+        /* Header do primeiro card */
+        &:first-of-type .card-header {
+            background-color: $roxo !important;
+        }
+
+        /* Header dos outros cards (opcional) */
+        .card-header {
+            background-color: #ffffff; /* Cor padrão para os outros headers */
+        }
+
+        /* Header do segundo card */
+        &:nth-of-type(2) .card-header {
+            background-color: $roxo !important;
+        }
+
+        /* Headers dos cards pares */
+        &:nth-child(even) .card-header {
+            background-color: #f0f0f0; /* Cor de fundo cinza claro */
+        }
+
+        /* Headers dos cards ímpares */
+        &:nth-child(odd) .card-header {
+            background-color: #e0e0e0; /* Cor de fundo cinza */
+        }
+
+        /* Header do segundo card */
+        &:nth-of-type(3) .card-header {
+            background-color: $roxo !important;
+        }
+    }
+
+    /* Estilização dos botões dentro dos cards */
+    .card {
+        .btn {
+            background-color: $roxo !important; /* Cor de fundo roxa */
+            border-color: $roxo !important; /* Cor da borda roxa */
+            color: #ffffff !important; /* Cor do texto branco */
+
+            &:hover {
+                background-color: darken($roxo, 10%) !important; /* Cor mais escura ao passar o mouse */
+                border-color: darken($roxo, 10%) !important; /* Borda mais escura ao passar o mouse */
+            }
+        }
+    }
+}

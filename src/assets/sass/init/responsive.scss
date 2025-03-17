@@ -1,0 +1,44 @@
+@media (max-width: 576px) {
+    main{
+        h1{
+            font-size: 75px;
+        }
+    }
+
+    footer{
+        ul, li{
+            margin-bottom: 50px !important;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    main{
+        .btn-init{
+            margin-bottom: 50px;
+        }
+    }
+
+    header{
+        .logo{
+            font-size: 15px;
+            margin-left: 20px !important;
+        }
+
+        .btn-bars{
+            margin-right: 20px !important;
+        }
+    }
+}
+
+@media (max-width: 360px) {
+    main{
+        h1{
+            font-size: 60px;
+        }
+
+        p{
+            font-size: 15px;
+        }
+    }
+}

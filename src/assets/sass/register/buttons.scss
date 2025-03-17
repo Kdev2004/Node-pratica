@@ -1,0 +1,16 @@
+.btn-register{
+    border-color: $roxo;
+    color: $roxo;
+
+    &:hover{
+        background: $roxo;
+        color: $branco;
+        border-color: $roxo;
+    }
+
+    &:active {
+        background: $roxo !important;
+        border-color: $roxo !important;
+        box-shadow: none !important;
+    } 
+}
