@@ -2,7 +2,9 @@
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
             <h2 class="text-center">Registro</h2>
-            <form action="/register" method="post">
+            <div id="message" class="alert alert-danger" style="display: none;">
+                </div>
+            <form id="registerForm">
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuário</label>
                     <input type="text" name="cusuario" id="usuario" class="form-control" required>
@@ -19,3 +21,38 @@
         </div>
     </div>
 </div>
+
+<script src="functions.js"></script>
+<script>
+    const form = document.getElementById('registerForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const username = document.getElementById('usuario').value;
+        const userpass = document.getElementById('senha').value;  
+
+        try {
+            const requisition = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user: username,
+                    pass: userpass
+                })
+            });
+
+            const data = await requisition.json();
+
+            registerMessageError(data.message);
+        }
+        catch (error) {
+            
+        }
+
+
+    })
+</script>

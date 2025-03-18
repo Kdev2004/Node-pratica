@@ -4,7 +4,7 @@ const handlebars = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 8080;
 const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
 //========== [VARIABLES] ==========
 
@@ -12,13 +12,10 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
   sequelize.authenticate()
   .then(() => {
       console.log('MySQL conectado com sucesso!');
-      return registers.sync({force: true});
+      return registers.sync({force: false});
     })
   .then(() => {
       console.log('Tabelas criadas com sucesso!');}) 
-
-  .catch((error) => {
-      console.error('Erro ao conectar MySQL:', error)});
 //========== [SEQUELIZE] ==========
 
 //========== [EXPRESS-HANDLEBARS] ==========
@@ -31,7 +28,9 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
 
   app.set('view engine', 'handlebars');
   app.set('views', 'views/pages');
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(express.static(path.join(__dirname, 'src/assets/scripts')));
 //========== [EXPRESS-HANDLEBARS] ==========
 
 //========== [GET ROUTES] ==========
@@ -49,10 +48,13 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
 //========== [GET ROUTES] ==========
 
 //========== [POST ROUTES] ==========
-  app.post('/register', (req, res) => {
-    const user = req.body.cusuario, pass = req.body.csenha;
+  app.post('/register', async(req, res) => {
+    const user = req.body.user, pass = req.body.pass;
+    const userExists = await registers.findOne({where: {user: user}});
 
-    console.log(`User ${user}`);
+    if(userExists){
+      res.status(400).json({message: 'Usuário já cadastrado!'});
+    }
   });
 //========== [POST ROUTES] ==========
 
