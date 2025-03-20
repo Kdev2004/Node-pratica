@@ -12,7 +12,7 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
   sequelize.authenticate()
   .then(() => {
       console.log('MySQL conectado com sucesso!');
-      return registers.sync({force: false});
+      return sequelize.sync({force: true});
     })
   .then(() => {
       console.log('Tabelas criadas com sucesso!');}) 
@@ -25,7 +25,6 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
         layoutsDir: path.join(__dirname, 'views/layouts')
     })
   );
-
   app.set('view engine', 'handlebars');
   app.set('views', 'views/pages');
   app.use(bodyParser.json());
@@ -37,11 +36,11 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
   app.get('/', (req, res) => {
     res.render('init');
   });
-
+  //=====
   app.get('/login', (req, res) => {
     res.render('login');
   });
-
+  //=====
   app.get('/register', (req, res) => {
     res.render('register');
   });
@@ -55,6 +54,20 @@ const {sequelize, registers} = require('./src/assets/scripts/sequelize.js');
     if(userExists){
       res.status(400).json({message: 'Usuário já cadastrado!'});
     }
+    else{
+      await registers.create({user: user, pass: pass});
+      res.status(200).json({message: 'Usuário cadastrado com sucesso!'});
+    }
+  });
+  //=====
+  app.post('/login', async(req, res) => {
+    const user = req.body.user, pass = req.body.pass;
+    const userExists = await registers.findOne({where: {user: user, pass: pass}});
+
+    if(userExists)
+      res.status(200).json({message: 'Login efetuado com sucesso!'});
+    else
+      res.status(400).json({message: 'Usuário ou senha inválidos!'});
   });
 //========== [POST ROUTES] ==========
 

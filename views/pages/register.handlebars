@@ -2,17 +2,17 @@
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
             <h2 class="text-center">Registro</h2>
-            <div id="message" class="alert alert-danger" style="display: none;">
-                </div>
             <form id="registerForm">
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuário</label>
-                    <input type="text" name="cusuario" id="usuario" class="form-control" required>
+                    <input type="text" name="cusuario" id="user" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input type="password" name="csenha" id="senha" class="form-control" required>
+                    <input type="password" name="csenha" id="pass" class="form-control" required>
                 </div>
+                <div id="messageSuccess" class="alert alert-success" style="display: none;"></div>
+                <div id="messageError" class="alert alert-danger" style="display: none;"></div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-success">Registrar</button>
                 </div>
